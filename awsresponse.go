@@ -33,6 +33,7 @@ type Price struct {
 type TopSeller struct {
 	ASIN  string
 	Title string
+	Item  Item
 }
 
 // Item represents a product returned by the API

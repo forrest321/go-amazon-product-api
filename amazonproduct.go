@@ -2,6 +2,7 @@
 package amazonproduct
 
 import (
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"strconv"
@@ -11,13 +12,27 @@ import (
 /*
 ItemLookup takes a product ID (ASIN) and returns the result
 */
-func (api AmazonProductAPI) ItemLookup(ItemId string) (string, error) {
+func (api AmazonProductAPI) ItemLookup(ItemId string) (Item, error) {
 	params := map[string]string{
 		"ItemId":        ItemId,
 		"ResponseGroup": "Images,ItemAttributes,Small,EditorialReview",
 	}
 
-	return api.genSignAndFetch("ItemLookup", params)
+	var returnItem Item
+
+	returnString, err := api.genSignAndFetch("ItemLookup", params)
+	if err != nil {
+		return returnItem, err
+	}
+
+	itemResponse := new(ItemLookupResponse)
+	err = xml.Unmarshal([]byte(returnString), itemResponse)
+	returnItem = itemResponse.Items.Item
+	if err != nil {
+		return returnItem, err
+	}
+	//if we make it here, item should be populated
+	return returnItem, nil
 }
 
 /*
