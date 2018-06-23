@@ -12,9 +12,9 @@ import (
 /*
 ItemLookup takes a product ID (ASIN) and returns the result
 */
-func (api AmazonProductAPI) ItemLookup(ItemId string) (Item, error) {
+func (api AmazonProductAPI) GetItem(itemID string) (Item, error) {
 	params := map[string]string{
-		"ItemId":        ItemId,
+		"ItemId":        itemID,
 		"ResponseGroup": "Images,ItemAttributes,Small,EditorialReview",
 	}
 
@@ -33,6 +33,21 @@ func (api AmazonProductAPI) ItemLookup(ItemId string) (Item, error) {
 	}
 	//if we make it here, item should be populated
 	return returnItem, nil
+}
+
+func (api AmazonProductAPI) GetBrowseNode(browseNodeId string) (BrowseNode, error) {
+	node := new(BrowseNode)
+	lookupResponse := new(BrowseNodeLookupResponse)
+	nodeLookupResponse, err := api.BrowseNodeLookup(browseNodeId)
+	if err != nil {
+		return *node, err
+	}
+	err = xml.Unmarshal([]byte(nodeLookupResponse), lookupResponse)
+	if err != nil {
+		return *node, err
+	}
+	bn := lookupResponse.BrowseNodes.BrowseNode
+	return bn, nil
 }
 
 /*
@@ -193,7 +208,8 @@ BrowseNodeLookup takes a BrowseNodeId and returns the result.
 */
 func (api AmazonProductAPI) BrowseNodeLookup(nodeId string) (string, error) {
 	params := map[string]string{
-		"BrowseNodeId": nodeId,
+		"BrowseNodeId":  nodeId,
+		"ResponseGroup": "BrowseNodeInfo, MostGifted, NewReleases, MostWishedFor, TopSellers",
 	}
 	return api.genSignAndFetch("BrowseNodeLookup", params)
 }

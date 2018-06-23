@@ -36,6 +36,18 @@ type TopSeller struct {
 	Item  Item
 }
 
+type TopItem struct {
+	ASIN  string
+	Title string
+	Item  Item
+}
+
+type NewRelease struct {
+	ASIN  string
+	Title string
+	Item  Item
+}
+
 // Item represents a product returned by the API
 type Item struct {
 	ASIN             string
@@ -62,9 +74,17 @@ type BrowseNode struct {
 	TopSellers   struct {
 		TopSeller []TopSeller
 	}
+	TopItemSet struct {
+		Type    string
+		TopItem []TopItem
+	}
+	NewReleases struct {
+		NewRelease []NewRelease
+	}
 	Ancestors struct {
 		BrowseNode []BrowseNode
 	}
+	//BrowseNodeInfo,MostGifted,NewReleases,MostWishedFor,TopSellers
 }
 
 // ItemAttributes response group
