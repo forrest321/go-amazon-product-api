@@ -74,17 +74,20 @@ type BrowseNode struct {
 	TopSellers   struct {
 		TopSeller []TopSeller
 	}
-	TopItemSet struct {
-		Type    string
-		TopItem []TopItem
-	}
+
 	NewReleases struct {
-		NewRelease []NewRelease
+		NewReleases TopItemSet
 	}
 	Ancestors struct {
 		BrowseNode []BrowseNode
 	}
+
 	//BrowseNodeInfo,MostGifted,NewReleases,MostWishedFor,TopSellers
+}
+
+type TopItemSet struct {
+	Type     string
+	TopItems []TopItem
 }
 
 // ItemAttributes response group
