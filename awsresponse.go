@@ -74,6 +74,19 @@ type BrowseNode struct {
 	TopSellers   struct {
 		TopSeller []TopSeller
 	}
+	Ancestors struct {
+		BrowseNode []BrowseNode
+	}
+}
+
+/*
+// BrowseNode represents a browse node returned by API
+type BrowseNode struct {
+	BrowseNodeID string `xml:"BrowseNodeId"`
+	Name         string
+	TopSellers   struct {
+		TopSeller []TopSeller
+	}
 
 	NewReleases TopItemSet
 
@@ -83,7 +96,7 @@ type BrowseNode struct {
 
 	//BrowseNodeInfo,MostGifted,NewReleases,MostWishedFor,TopSellers
 }
-
+*/
 type TopItemSet struct {
 	Type     string
 	TopItems []TopItem
