@@ -75,9 +75,8 @@ type BrowseNode struct {
 		TopSeller []TopSeller
 	}
 
-	NewReleases struct {
-		NewReleases TopItemSet
-	}
+	NewReleases TopItemSet
+
 	Ancestors struct {
 		BrowseNode []BrowseNode
 	}
