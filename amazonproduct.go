@@ -15,7 +15,7 @@ ItemLookup takes a product ID (ASIN) and returns the result
 func (api AmazonProductAPI) GetItem(itemID string) (Item, error) {
 	params := map[string]string{
 		"ItemId":        itemID,
-		"ResponseGroup": "Images,ItemAttributes,Small,EditorialReview",
+		"ResponseGroup": "Images,ItemAttributes,Offers",
 	}
 
 	var returnItem Item
@@ -36,15 +36,15 @@ func (api AmazonProductAPI) GetItem(itemID string) (Item, error) {
 }
 
 func (api AmazonProductAPI) GetBrowseNode(browseNodeId string) (BrowseNode, error) {
-	node := new(BrowseNode)
+
 	lookupResponse := new(BrowseNodeLookupResponse)
 	nodeLookupResponse, err := api.BrowseNodeLookup(browseNodeId)
 	if err != nil {
-		return *node, err
+		panic(err)
 	}
 	err = xml.Unmarshal([]byte(nodeLookupResponse), lookupResponse)
 	if err != nil {
-		return *node, err
+		panic(err)
 	}
 	bn := lookupResponse.BrowseNodes.BrowseNode
 	return bn, nil
